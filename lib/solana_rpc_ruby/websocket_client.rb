@@ -23,10 +23,11 @@ module SolanaRpcRuby
     #
     # @param websocket_client [Object]
     # @param cluster [String]
-    def initialize(websocket_client: Faye::WebSocket, cluster: nil)
+    def initialize(websocket_client: Faye::WebSocket, cluster: nil, options: {})
       @client = websocket_client
       @cluster = cluster || SolanaRpcRuby.ws_cluster
       @retries = 0
+      @options = options
 
       message = 'Websocket cluster is missing. Please provide default cluster in config or pass it to the client directly.'
       raise ArgumentError, message unless @cluster
@@ -42,7 +43,7 @@ module SolanaRpcRuby
       EM.run {
         # ping option sends some data to the server periodically, 
         # which prevents the connection to go idle.
-        ws ||= Faye::WebSocket::Client.new(@cluster, nil)
+        ws ||= Faye::WebSocket::Client.new(@cluster, nil, options=@options)
         EM::PeriodicTimer.new(KEEPALIVE_TIME) do
           while !ws.ping
             @retries += 1

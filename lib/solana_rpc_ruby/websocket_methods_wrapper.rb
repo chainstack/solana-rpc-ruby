@@ -28,12 +28,14 @@ module SolanaRpcRuby
     # @param api_client [ApiClient]
     # @param cluster [String] cluster where requests will be sent.
     # @param id [Integer] unique client-generated identifying integer.
+    # @param client_options [Hash] map of options for websocket_client.
     def initialize(
       websocket_client: WebsocketClient,
       cluster: SolanaRpcRuby.ws_cluster,
-      id: rand(1...99_999)
+      id: rand(1...99_999),
+      client_options: {}
     )
-      @websocket_client = websocket_client.new(cluster: cluster)
+      @websocket_client = websocket_client.new(cluster: cluster, options:client_options)
       @id = id
     end
 
