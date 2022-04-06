@@ -68,7 +68,13 @@ ws_method_wrapper = SolanaRpcRuby::WebsocketsMethodsWrapper.new(
 
   # optional, if not passed, default random number 
   # from range 1 to 99_999 will be used
-  id: 123 
+  id: 123,
+          
+  # optional, if not passed, client_options will be set to {}
+  # may be useful for client setup
+  # i.e. client_options: {:tls => {:verify_peer => false}}
+  # reference for options: https://github.com/faye/faye-websocket-node#initialization-options
+  client_options: {}
 )
 
 # You should see stream of messages in your console.
