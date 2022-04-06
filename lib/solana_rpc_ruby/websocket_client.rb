@@ -42,7 +42,7 @@ module SolanaRpcRuby
       EM.run {
         # ping option sends some data to the server periodically, 
         # which prevents the connection to go idle.
-        ws ||= Faye::WebSocket::Client.new(@cluster, nil)
+        ws ||= Faye::WebSocket::Client.new(@cluster, nil, :tls => {:verify_peer => false})
         EM::PeriodicTimer.new(KEEPALIVE_TIME) do
           while !ws.ping
             @retries += 1
